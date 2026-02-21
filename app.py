@@ -212,9 +212,8 @@ for task in selected_tasks:
 
 st.subheader("Select Available Employees")
 
-# Select All
-select_all = st.checkbox("Select All Employees")
-if select_all:
+# "Select All" button
+if st.button("Select All Employees"):
     for emp in employee_skills.keys():
         st.session_state[f"emp_{emp}"] = True
 
