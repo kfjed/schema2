@@ -176,9 +176,6 @@ def generate_schedule(task_counts, present_employees, history):
 
     schedule[OVERFLOW_TASK] = overflow
 
-print("Available employees:", available)
-print("Selected tasks:", task_counts)
-
     return schedule
 
 
