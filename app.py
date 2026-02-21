@@ -200,6 +200,10 @@ for task in selected_tasks:
     )
 
 st.subheader("Select Available Employees")
+
+# "Select All" checkbox
+select_all = st.checkbox("Select All")
+
 present_employees = []
 
 cols = st.columns(2)
