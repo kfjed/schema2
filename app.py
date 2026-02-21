@@ -219,7 +219,15 @@ present_employees = []
 
 cols = st.columns(2)
 for i, emp in enumerate(employee_skills.keys()):
-    if cols[i % 2].checkbox(emp, key=f"emp_{emp}"):
+    # Display checkbox with current value from session_state
+    checked = st.session_state[f"emp_{emp}"]
+    if cols[i % 2].checkbox(emp, key=f"emp_{emp}", value=checked):
+        st.session_state[f"emp_{emp}"] = True
+    else:
+        st.session_state[f"emp_{emp}"] = False
+
+    # Add to present_employees if checked
+    if st.session_state[f"emp_{emp}"]:
         present_employees.append(emp)
 
 if "generated_schedule" not in st.session_state:
