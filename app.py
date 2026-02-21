@@ -133,8 +133,7 @@ def assignment_score(employee, task, current_group, task_count, cowork_count):
 # SCHEDULER
 # -----------------------------------
 
-def generate_schedule(task_counts, present_employees, history, print("Available employees:", available)
-print("Selected tasks:", task_counts)):
+def generate_schedule(task_counts, present_employees, history):
 
     recent_history = get_recent_history(history)
     task_count, cowork_count = build_statistics(recent_history)
@@ -176,6 +175,9 @@ print("Selected tasks:", task_counts)):
             raise ValueError(f"{emp} cannot be assigned to overflow task {OVERFLOW_TASK}")
 
     schedule[OVERFLOW_TASK] = overflow
+
+print("Available employees:", available)
+print("Selected tasks:", task_counts)
 
     return schedule
 
