@@ -55,6 +55,15 @@ ALL_TASKS = ["001", #granskning
 
 OVERFLOW_TASK = "131"
 
+task_descriptions = {
+    "001": "Granskning",
+    "130": "Syning/Packning",
+    "131": "Montering",
+    "132": "Kapning/Vägning",
+    "134": "Extrudering",
+    "064": "Formspruta",
+    "100": "Alupåsar",
+}
 
 # -----------------------------------
 # LOAD / SAVE HISTORY
@@ -167,12 +176,17 @@ def generate_schedule(task_counts, present_employees, history):
 # UI
 # -----------------------------------
 
-st.title("Work Scheduler")
+st.title("Schema")
 
 history = load_history()
 
 st.subheader("Select Tasks")
-selected_tasks = st.multiselect("Tasks for today", ALL_TASKS)
+selected_tasks = []
+for task in ALL_TASKS:
+    desc = task_descriptions.get(task, "")
+    label = f"{task} — {desc}"
+    if st.checkbox(label, key=f"task_{task}"):
+        selected_tasks.append(task)
 
 task_counts = {}
 for task in selected_tasks:
@@ -184,9 +198,10 @@ for task in selected_tasks:
     )
 
 st.subheader("Select Available Employees")
-present_employees = st.multiselect(
-    "Employees present",
-    list(employee_skills.keys())
+present_employees = []
+for emp in employee_skills.keys():
+    if st.checkbox(f"{emp}", key=f"emp_{emp}"):
+        present_employees.append(emp)
 )
 
 if "generated_schedule" not in st.session_state:
