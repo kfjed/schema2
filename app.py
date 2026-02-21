@@ -44,6 +44,13 @@ employee_skills = {
     "SUL": {"131", "134"},
 }
 
+import streamlit as st
+
+# Initialize session state for employee checkboxes
+for emp in employee_skills.keys():
+    if f"emp_{emp}" not in st.session_state:
+        st.session_state[f"emp_{emp}"] = False
+        
 ALL_TASKS = ["001", #granskning
              "131", #montering
              "132", #kapning
@@ -203,6 +210,10 @@ st.subheader("Select Available Employees")
 
 # "Select All" checkbox
 select_all = st.checkbox("Select All")
+# If select_all changed, update all individual employee checkboxes
+if select_all:
+    for emp in employee_skills.keys():
+        st.session_state[f"emp_{emp}"] = True
 
 present_employees = []
 
