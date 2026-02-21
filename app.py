@@ -1,4 +1,25 @@
 import streamlit as st
+
+# Set your password
+PASSWORD = "plattfisk"
+
+# Session state to track login
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+# Show password input if not logged in
+if not st.session_state.logged_in:
+    password_input = st.text_input("Enter password to access the scheduler:", type="password")
+    if st.button("Login"):
+        if password_input == PASSWORD:
+            st.session_state.logged_in = True
+            st.success("Logged in!")
+        else:
+            st.error("Incorrect password")
+    st.stop()  # Stop execution until logged in
+
+
+import streamlit as st
 import json
 import os
 from collections import defaultdict
@@ -12,17 +33,25 @@ from datetime import datetime, timedelta
 HISTORY_FILE = "history.json"
 
 employee_skills = {
-    "ALX": {"101", "205", "131"},
-    "JSM": {"101", "205", "131"},
-    "TRN": {"205", "131"},
-    "KIM": {"101", "131"},
-    "ROB": {"205", "131"},
-    "LIA": {"101", "131"},
-    "ELI": {"001", "131"},
-    "MFN": {"001", "205", "131"},
+    "KDN": {"131", "132", "134", "130", "064"},
+    "MFN": {"001", "131", "132", "134", "130", "064", "100"},
+    "ALM": {"131", "132", "134", "130", "064", "100"},
+    "GSS": {"131", "132", "134", "130", "064", "100"},
+    "LHK": {"131", "132", "134", "130", "064", "100"},
+    "DBU": {"131", "132", "134", "130", "064", "100"},
+    "ELI": {"001", "131", "132", "134", "130", "064"},
+    "AGZ": {"131", "132", "134", "130", "064"},
+    "SUL": {"131", "134"},
 }
 
-ALL_TASKS = ["001", "101", "205"]
+ALL_TASKS = ["001", #granskning
+             "131", #montering
+             "132", #kapning
+             "134", #extrudering
+             "130", #packning
+             "064", #formspuruta
+             "100", #alupåsar
+            ]
 
 OVERFLOW_TASK = "131"
 
