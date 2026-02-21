@@ -138,7 +138,7 @@ def generate_schedule(task_counts, present_employees, history):
     task_count, cowork_count = build_statistics(recent_history)
 
     schedule = {}
-    available = set(present_employees)
+    available = list(present_employees)
 
     for task, required in task_counts.items():
 
