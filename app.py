@@ -134,46 +134,51 @@ def assignment_score(employee, task, current_group, task_count, cowork_count):
 # -----------------------------------
 
 def generate_schedule(task_counts, present_employees, history):
+    """
+    Generate a schedule for selected tasks and employees.
+    Guarantees all present employees are assigned somewhere if qualified.
+    """
+    # Track assignments and available employees
+    schedule = {task: [] for task in task_counts.keys()}
+    available = list(present_employees)  # Use list for predictable order
+
+    # Optional: you can include task_count / cowork_count stats for scoring
     recent_history = get_recent_history(history)
     task_count, cowork_count = build_statistics(recent_history)
 
-    schedule = {}
-    available = list(present_employees)
-
+    # Assign employees to each task
     for task, required in task_counts.items():
+        # Employees trained for this task and still available
+        qualified = [emp for emp in available if task in employee_skills.get(emp, set())]
 
-        schedule[task] = []
+        if not qualified:
+            # No qualified employees left for this task
+            continue
 
-        qualified = {
-            emp for emp in available
-            if task in employee_skills.get(emp, set())
-        }
-
-        if len(qualified) < required:
-            raise ValueError(f"Not enough trained employees for task {task}")
-
+        # Assign employees up to the required number
         for _ in range(required):
+            if not qualified:
+                break  # no more qualified employees
 
+            # Pick best employee (lowest assignment_score)
             best_employee = min(
                 qualified,
-                key=lambda emp: assignment_score(
-                    emp, task, schedule[task], task_count, cowork_count
-                ),
+                key=lambda emp: assignment_score(emp, task, schedule[task], task_count, cowork_count)
             )
 
             schedule[task].append(best_employee)
             available.remove(best_employee)
             qualified.remove(best_employee)
 
-    # Overflow
-    overflow = []
-    for emp in available:
-        if OVERFLOW_TASK in employee_skills.get(emp, set()):
-            overflow.append(emp)
-        else:
-            raise ValueError(f"{emp} cannot be assigned to overflow task {OVERFLOW_TASK}")
+    # Overflow task: assign any remaining available employees who are trained for 131
+    overflow_task = "131"
+    if overflow_task not in schedule:
+        schedule[overflow_task] = []
 
-    schedule[OVERFLOW_TASK] = overflow
+    for emp in available[:]:  # copy to avoid modifying list while iterating
+        if overflow_task in employee_skills.get(emp, set()):
+            schedule[overflow_task].append(emp)
+            available.remove(emp)
 
     return schedule
 
@@ -225,14 +230,13 @@ if "generated_schedule" not in st.session_state:
 
 
 if st.button("Generate Schedule"):
-    # 1️⃣ Generate the schedule
     schedule = generate_schedule(task_counts, present_employees, history)
-    
-    # 2️⃣ Display schedule for each task
+
+    # Display schedule
     for task, emps in schedule.items():
         st.text(f"{task} → {', '.join(emps) if emps else 'None'}")
-    
-    # 3️⃣ Check for unassigned employees
+
+    # Show unassigned employees
     assigned_employees = [emp for emps in schedule.values() for emp in emps]
     unassigned = set(present_employees) - set(assigned_employees)
     if unassigned:
