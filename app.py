@@ -208,21 +208,17 @@ for task in selected_tasks:
 
 st.subheader("Select Available Employees")
 
-# "Select All" checkbox
-select_all = st.checkbox("Select All")
-# If select_all changed, update all individual employee checkboxes
+# Select All
+select_all = st.checkbox("Select All Employees")
 if select_all:
     for emp in employee_skills.keys():
         st.session_state[f"emp_{emp}"] = True
 
+# Display checkboxes in 2 columns
 present_employees = []
 cols = st.columns(2)
-
 for i, emp in enumerate(employee_skills.keys()):
-    # Display checkbox with session_state value
-    checked = st.session_state[f"emp_{emp}"]
-    if cols[i % 2].checkbox(emp, key=f"emp_{emp}", value=checked):
-        # Streamlit automatically updates st.session_state[f"emp_{emp}"]
+    if cols[i % 2].checkbox(emp, key=f"emp_{emp}", value=st.session_state[f"emp_{emp}"]):
         present_employees.append(emp)
 
 if "generated_schedule" not in st.session_state:
