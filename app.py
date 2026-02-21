@@ -135,6 +135,16 @@ def assignment_score(employee, task, current_group, task_count, cowork_count):
 
 def generate_schedule(task_counts, present_employees, history):
 
+# Flatten schedule to get all assigned employees
+assigned_employees = [emp for emps in schedule.values() for emp in emps]
+
+# Find unassigned employees
+unassigned = set(present_employees) - set(assigned_employees)
+
+# Display a simple list in Streamlit
+if unassigned:
+    st.warning(f"The following employees could not be assigned to any task: {', '.join(unassigned)}")
+
     recent_history = get_recent_history(history)
     task_count, cowork_count = build_statistics(recent_history)
 
