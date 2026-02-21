@@ -202,11 +202,9 @@ for task in selected_tasks:
 st.subheader("Select Available Employees")
 present_employees = []
 
-cols = st.columns(2)  # 2 columns for employees
+cols = st.columns(2)
 for i, emp in enumerate(employee_skills.keys()):
-    desc = employee_descriptions.get(emp, "")
-    label = f"{emp} — {desc}" if desc else emp
-    if cols[i % 2].checkbox(label, key=f"emp_{emp}"):
+    if cols[i % 2].checkbox(emp, key=f"emp_{emp}"):
         present_employees.append(emp)
 
 if "generated_schedule" not in st.session_state:
