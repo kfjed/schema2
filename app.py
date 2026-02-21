@@ -202,7 +202,6 @@ present_employees = []
 for emp in employee_skills.keys():
     if st.checkbox(f"{emp}", key=f"emp_{emp}"):
         present_employees.append(emp)
-)
 
 if "generated_schedule" not in st.session_state:
     st.session_state.generated_schedule = None
