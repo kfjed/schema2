@@ -182,10 +182,12 @@ history = load_history()
 
 st.subheader("Select Tasks")
 selected_tasks = []
-for task in ALL_TASKS:
+
+cols = st.columns(2)  # Change the number for more/fewer columns
+for i, task in enumerate(ALL_TASKS):
     desc = task_descriptions.get(task, "")
     label = f"{task} — {desc}"
-    if st.checkbox(label, key=f"task_{task}"):
+    if cols[i % 2].checkbox(label, key=f"task_{task}"):
         selected_tasks.append(task)
 
 task_counts = {}
@@ -199,8 +201,12 @@ for task in selected_tasks:
 
 st.subheader("Select Available Employees")
 present_employees = []
-for emp in employee_skills.keys():
-    if st.checkbox(f"{emp}", key=f"emp_{emp}"):
+
+cols = st.columns(2)  # 2 columns for employees
+for i, emp in enumerate(employee_skills.keys()):
+    desc = employee_descriptions.get(emp, "")
+    label = f"{emp} — {desc}" if desc else emp
+    if cols[i % 2].checkbox(label, key=f"emp_{emp}"):
         present_employees.append(emp)
 
 if "generated_schedule" not in st.session_state:
