@@ -133,7 +133,8 @@ def assignment_score(employee, task, current_group, task_count, cowork_count):
 # SCHEDULER
 # -----------------------------------
 
-def generate_schedule(task_counts, present_employees, history):
+def generate_schedule(task_counts, present_employees, history, print("Available employees:", available)
+print("Selected tasks:", task_counts)):
 
     recent_history = get_recent_history(history)
     task_count, cowork_count = build_statistics(recent_history)
