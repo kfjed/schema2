@@ -225,9 +225,18 @@ if "generated_schedule" not in st.session_state:
 
 
 if st.button("Generate Schedule"):
-
-    try:
-        schedule = generate_schedule(task_counts, present_employees, history)
+    # 1️⃣ Generate the schedule
+    schedule = generate_schedule(task_counts, present_employees, history)
+    
+    # 2️⃣ Display schedule for each task
+    for task, emps in schedule.items():
+        st.text(f"{task} → {', '.join(emps) if emps else 'None'}")
+    
+    # 3️⃣ Check for unassigned employees
+    assigned_employees = [emp for emps in schedule.values() for emp in emps]
+    unassigned = set(present_employees) - set(assigned_employees)
+    if unassigned:
+        st.warning(f"The following employees could not be assigned to any task: {', '.join(unassigned)}")
         
 
 if st.session_state.generated_schedule:
