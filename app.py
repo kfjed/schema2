@@ -230,6 +230,7 @@ if "generated_schedule" not in st.session_state:
 
 
 if st.button("Generate Schedule"):
+    # Generate the schedule
     schedule = generate_schedule(task_counts, present_employees, history)
 
     # Display schedule
@@ -241,6 +242,18 @@ if st.button("Generate Schedule"):
     unassigned = set(present_employees) - set(assigned_employees)
     if unassigned:
         st.warning(f"The following employees could not be assigned to any task: {', '.join(unassigned)}")
+
+    # ✅ Place Accept / Discard buttons HERE
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Accept Schedule"):
+            # Save schedule to history
+            save_schedule_to_history(schedule)
+            st.success("Schedule saved to history!")
+
+    with col2:
+        if st.button("Discard Schedule"):
+            st.info("Schedule discarded")
         
 
 if st.session_state.generated_schedule:
