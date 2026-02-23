@@ -63,7 +63,7 @@ ALL_TASKS = ["001", #granskning
              "068", #testmontering
             ]
 
-OVERFLOW_TASK = "171"
+OVERFLOW_TASK = "172"
 
 task_descriptions = {
     "001": "Granskning",
@@ -174,8 +174,8 @@ def generate_schedule(task_counts, present_employees, history):
             available.remove(best_employee)
             qualified.remove(best_employee)
 
-    # Overflow task: assign any remaining available employees who are trained for 131
-    overflow_task = "131"
+    # Overflow task: assign any remaining available employees who are trained for 172
+    overflow_task = "172"
     if overflow_task not in schedule:
         schedule[overflow_task] = []
 
