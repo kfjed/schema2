@@ -33,15 +33,17 @@ from datetime import datetime, timedelta
 HISTORY_FILE = "history.json"
 
 employee_skills = {
-    "KDN": {"131", "132", "134", "130", "064"},
-    "MFN": {"001", "131", "132", "134", "130", "064", "100"},
-    "ALM": {"131", "132", "134", "130", "064", "100"},
-    "GSS": {"131", "132", "134", "130", "064", "100"},
-    "LHK": {"131", "132", "134", "130", "064", "100"},
-    "DBU": {"131", "132", "134", "130", "064", "100"},
-    "ELI": {"001", "131", "132", "134", "130", "064"},
-    "AGZ": {"131", "132", "134", "130", "064"},
-    "SUL": {"131", "134"},
+    "KDN": {"171", "172", "132", "134", "108", "068"},
+    "MFN": {"171", "172", "132", "134", "108", "068", "101", "001"},
+    "ALM": {"171", "172", "132", "134", "108", "068", "101"},
+    "LHK": {"171", "172", "132", "134", "108", "068", "101"},
+    "DBU": {"171", "172", "132", "134", "108", "068", "101"},
+    "GSS": {"171", "172", "132", "134", "108", "068", "101"},
+    "AGZ": {"171", "172", "132", "134", "108", "068"},
+    "ELI": {"171", "172", "132", "134", "108", "068", "101", "001"},
+    "RPN": {"171", "172", "132", "134", "068"},
+    "SEN": {"171", "132", "068"},
+    "KLR": 
 }
 
 import streamlit as st
@@ -52,24 +54,25 @@ for emp in employee_skills.keys():
         st.session_state[f"emp_{emp}"] = False
         
 ALL_TASKS = ["001", #granskning
-             "131", #montering
-             "132", #kapning
-             "134", #extrudering
-             "130", #packning
-             "064", #formspuruta
-             "100", #alupåsar
+             "172", #montering
+             "171", #packning
+             "134", #kapning
+             "132", #extrudering
+             "108", #formspuruta
+             "101", #alupåsar
+             "068", #testmontering
             ]
 
-OVERFLOW_TASK = "131"
+OVERFLOW_TASK = "171"
 
 task_descriptions = {
     "001": "Granskning",
-    "130": "Syning/Packning",
-    "131": "Montering",
-    "132": "Kapning/Vägning",
-    "134": "Extrudering",
-    "064": "Formspruta",
-    "100": "Alupåsar",
+    "171": "Syning/Packning",
+    "172": "Montering",
+    "134": "Kapning/Vägning",
+    "132": "Extrudering",
+    "108": "Formspruta",
+    "101": "Alupåsar",
 }
 
 # -----------------------------------
